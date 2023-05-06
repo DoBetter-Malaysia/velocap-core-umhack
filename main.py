@@ -33,6 +33,6 @@ def startups():
 @app.route("/startups/<id>")
 @cross_origin()
 def startup(id):
-    session = Session(engine)
-    stmt = select(Startup).where(Startup.id == id)
-    return jsonify(session.scalars(stmt).first())
+    with Session(engine) as session:
+        stmt = select(Startup).where(Startup.id == id)
+        return jsonify(session.scalars(stmt).first())
