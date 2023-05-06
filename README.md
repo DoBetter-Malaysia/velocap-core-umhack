@@ -26,3 +26,9 @@ docker run --name velocap-pgadmin \
 5. Run `docker network inspect bridge` and find the IPv4 of the PostgreSQL instance
 6. Input it into PgAdmin when connecting to server.
 7. To seed the tables, run `main.py` to generate tables and import `founders.csv` and `startups.csv` into the tables, and ensure that `id` isnt included in the `Columns to import`.
+
+## Running REST API
+
+```
+flask --app main --debug run
+```

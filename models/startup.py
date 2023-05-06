@@ -1,10 +1,13 @@
-from typing import Optional
-from sqlalchemy.orm import Mapped, mapped_column
+from dataclasses import dataclass
+from typing import Optional, List
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Column
 from sqlalchemy.types import Date
 from models.base import Base
+from models.founder import Founder
 
 
+@dataclass
 class Startup(Base):
     __tablename__ = "startups"
 
@@ -45,3 +48,5 @@ class Startup(Base):
     round_G: Mapped[int]
     round_H: Mapped[int]
     market_size: Mapped[str]
+
+    founders: Mapped[List["Founder"]] = relationship()
