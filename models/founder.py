@@ -16,5 +16,6 @@ class Founder(Base):
     years_of_experience: Mapped[int]
     picture: Mapped[Optional[str]]
     prev_founded: Mapped[int]
+    gender: Mapped[str]
     
     startup = relationship("Startup")

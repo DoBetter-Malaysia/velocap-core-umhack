@@ -6,7 +6,7 @@ from models.founder import Founder
 
 def setup_models():
     engine = create_engine(
-        "postgresql://postgres:mysecretpassword@localhost/main", echo=True
+        "postgresql://postgres:secret@localhost/umhack", echo=True
     )
 
     Base.metadata.create_all(engine)

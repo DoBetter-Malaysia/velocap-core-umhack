@@ -15,7 +15,7 @@ class Startup(Base):
     permalink: Mapped[str]
     name: Mapped[str]
     homepage_url: Mapped[str]
-    description: Mapped[str]
+    description: Mapped[Optional[str]]
     picture: Mapped[str]
     category_list: Mapped[str]
     market: Mapped[str]
