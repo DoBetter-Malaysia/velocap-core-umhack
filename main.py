@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from models.setup import setup_models
 from flask import Flask, jsonify
 from flask import request
@@ -7,6 +11,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 from models.startup import Startup
 from models.founder import Founder
+from models.news import News
 from queries.heuristics import query
 from knn.knn_distance_recommender import get_similar_companies
 
@@ -23,7 +28,7 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/startups", methods=['POST'])
+@app.route("/startups", methods=["POST"])
 @cross_origin()
 def startups():
     with engine.connect() as conn:
@@ -46,3 +51,15 @@ def recommend(id):
     data = session.scalars(stmt).first().__dict__
     predictions=get_similar_companies(data)
     return jsonify(predictions)
+
+@app.route("/news/<company_id>")
+@cross_origin()
+def news(company_id):
+    with Session(engine) as session:
+        stmt = (
+            select(News)
+            .where(News.company_id == company_id)
+            .order_by(News.date_posted.desc())
+            .limit(3)
+        )
+        return jsonify(session.scalars(stmt).all())
