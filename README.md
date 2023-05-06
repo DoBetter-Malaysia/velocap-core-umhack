@@ -4,7 +4,9 @@ This is where we store the data and stuff
 
 ## Running
 
-1. Start a PosgresSQL instance
+1. pip install -r requirements.txt
+2. Start a PosgresSQL instance
+
 ```
 docker run --name velocap-postgres \
     -p 5432:5432 \
@@ -12,7 +14,8 @@ docker run --name velocap-postgres \
     -d postgres
 ```
 
-2. Start PgAdmin
+3. Start PgAdmin
+
 ```
 docker run --name velocap-pgadmin \
     -p 80:80 \
@@ -21,11 +24,10 @@ docker run --name velocap-pgadmin \
     -d dpage/pgadmin4
 ```
 
-3. Go to `localhost:80` for PgAdmin homepage
-4. Login with `postgres:mysecretpassword`
-5. Run `docker network inspect bridge` and find the IPv4 of the PostgreSQL instance
-6. Input it into PgAdmin when connecting to server.
-7. To seed the tables, run `main.py` to generate tables and import `founders.csv` and `startups.csv` into the tables, and ensure that `id` isnt included in the `Columns to import`.
+4. Go to `localhost:80` for PgAdmin homepage
+5. Login with `postgres:mysecretpassword`
+6. Run `docker network inspect bridge` and find the IPv4 of the PostgreSQL instance
+7. Restore the database with `backups/velocap-backup-07052023` using **CUSTOM** Format.
 
 ## Running REST API
 
