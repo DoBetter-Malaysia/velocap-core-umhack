@@ -8,6 +8,7 @@ from sqlalchemy import select
 from models.startup import Startup
 from models.founder import Founder
 from queries.heuristics import query
+from knn.knn_distance_recommender import get_similar_companies
 
 
 engine = setup_models()
@@ -36,3 +37,12 @@ def startup(id):
     session = Session(engine)
     stmt = select(Startup).where(Startup.id == id)
     return jsonify(session.scalars(stmt).first())
+
+@app.route("/recommend/<id>")
+@cross_origin()
+def recommend(id):
+    session = Session(engine)
+    stmt = select(Startup).where(Startup.id == id)
+    data = session.scalars(stmt).first().__dict__
+    predictions=get_similar_companies(data)
+    return jsonify(predictions)
