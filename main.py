@@ -25,8 +25,7 @@ def hello_world():
 def startups():
     with engine.connect() as conn:
         result = conn.execute(text("SELECT * FROM startups"))
-        return [list(u) for u in result.all()]
-        return jsonify(json_list=result.all())
+        return [r._asdict() for r in result.all()]
 
 
 @app.route("/startups/<id>")

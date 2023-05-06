@@ -23,9 +23,10 @@ class Startup(Base):
     status: Mapped[str]
     country_code: Mapped[str]
     funding_rounds: Mapped[int]
-    founded_at = Column(Date)
-    first_funding_at = Column(Date, nullable=True)
-    last_funding_at = Column(Date, nullable=True)
+    founded_at: Mapped[Date] = Column(Date)
+    first_funding_at: Mapped[Date] = Column(Date, nullable=True)
+    last_funding_at: Mapped[Date] = Column(Date, nullable=True)
+    last_engagement_at: Mapped[Date] = Column(Date, nullable=True)
     seed: Mapped[int]
     venture: Mapped[int]
     equity_crowdfunding: Mapped[int]
@@ -50,3 +51,6 @@ class Startup(Base):
     market_size: Mapped[str]
 
     founders: Mapped[List["Founder"]] = relationship()
+    
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
