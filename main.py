@@ -13,6 +13,7 @@ from models.startup import Startup
 from models.founder import Founder
 from models.news import News
 from queries.heuristics import query
+from knn.knn_distance_recommender import get_similar_companies
 
 
 engine = setup_models()
@@ -38,10 +39,18 @@ def startups():
 @app.route("/startups/<id>")
 @cross_origin()
 def startup(id):
-    with Session(engine) as session:
-        stmt = select(Startup).where(Startup.id == id)
-        return jsonify(session.scalars(stmt).first())
+    session = Session(engine)
+    stmt = select(Startup).where(Startup.id == id)
+    return jsonify(session.scalars(stmt).first())
 
+@app.route("/recommend/<id>")
+@cross_origin()
+def recommend(id):
+    session = Session(engine)
+    stmt = select(Startup).where(Startup.id == id)
+    data = session.scalars(stmt).first().__dict__
+    predictions=get_similar_companies(data)
+    return jsonify(predictions)
 
 @app.route("/news/<company_id>")
 @cross_origin()
